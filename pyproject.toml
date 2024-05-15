@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "enterprise-gateway"
+name = "taskmates_enterprise_gateway"
 version = "0.1.0"
 description = ""
 authors = ["Your Name <you@example.com>"]
@@ -10,11 +10,16 @@ python = "^3.11"
 pillow = "^10.1.0"
 pyarrow = "^16.0.0"
 google-api-python-client = "^2.111.0"
-ipytest = "^0.14.2"
+ipytest = "^0.13.3"
+ipython = "^8.18.1"
 matplotlib = "^3.8.3"
 numpy = "^1.26.2"
 pandas = "^2.1.4"
 pypdf = "^3.17.4"
+jupyter-enterprise-gateway = "^3.2.2"
+taskmates = { path = "/Users/ralphus/Development/ai/taskmates" }
+jupyter-contrib-nbextensions = "^0.7.0"
+yfinance = "^0.2.38"
 
 [build-system]
 requires = ["poetry-core"]
