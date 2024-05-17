@@ -16,6 +16,8 @@ USER root
 
 RUN apt update && apt install -yq curl fd-find ack-grep
 
+RUN ln -s /usr/bin/fdfind /usr/local/bin/fd
+
 #RUN apt update && apt install -yq curl openjdk-8-jdk
 #
 ## Install Enterprise Gateway wheel and kernelspecs
