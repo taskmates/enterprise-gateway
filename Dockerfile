@@ -41,8 +41,12 @@ RUN apt update && apt install -yq curl fd-find ack-grep
 
 #RUN pip3 install .
 
-RUN pip install pillow==10.1.0
-RUN pip install pyarrow==16.0.0
+USER jovyan
+
+COPY etc/ipython_config.py /home/jovyan/.ipython/profile_default/ipython_config.py
+
+RUN pip install --user pillow==10.1.0
+RUN pip install --user pyarrow==16.0.0
 RUN pip install --user google-api-python-client==2.111.0
 RUN pip install --user ipytest==0.14.2
 RUN pip install --user matplotlib==3.8.3
@@ -51,7 +55,6 @@ RUN pip install --user pandas==2.1.4
 RUN pip install --user pypdf==3.17.4
 RUN pip install --user yfinance==0.2.38
 
-USER jovyan
 
 CMD ["/usr/local/bin/start-enterprise-gateway.sh"]
 
