@@ -29,4 +29,4 @@ RUN poetry install
 
 EXPOSE $EG_PORT
 
-CMD poetry run jupyter enterprisegateway --port=$EG_PORT --EnterpriseGatewayApp.list_kernels=True
+CMD poetry run jupyter enterprisegateway --ip=0.0.0.0 --port=$EG_PORT --EnterpriseGatewayApp.list_kernels=True

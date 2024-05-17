@@ -6,7 +6,7 @@ docker_build:
 .PHONY: docker_run
 
 docker_run:
-	docker run -p 10100:10100 enterprise-gateway
+	docker run -it --rm -p 10100:10100 enterprise-gateway
 
 
 .PHONY: install
