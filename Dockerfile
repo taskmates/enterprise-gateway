@@ -3,8 +3,10 @@ ENV EG_PORT=10100
 
 USER root
 
-RUN apt update && apt install -yq curl fd-find ack-grep
+RUN apt update && apt install -yq gcc python3-dev curl fd-find ack-grep
 RUN ln -s /usr/bin/fdfind /usr/local/bin/fd
+
+USER jovyan
 
 RUN pip install poetry
 
