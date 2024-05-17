@@ -1,6 +1,8 @@
 FROM jupyter/minimal-notebook:python-3.11
 ENV EG_PORT=10100
 
+USER root
+
 RUN apt update && apt install -yq curl fd-find ack-grep
 RUN ln -s /usr/bin/fdfind /usr/local/bin/fd
 
@@ -19,10 +21,6 @@ ENV PATH="/root/.local/bin:$PATH" \
   POETRY_CACHE_DIR='/var/cache/pypoetry' \
   POETRY_HOME='/usr/local' \
   POETRY_VERSION=1.7.1
-
-
-WORKDIR /home/jovyan/taskmates_enterprise_gateway
-RUN mkdir -p /home/jovyan/.ipython/profile_default
 
 COPY taskmates_enterprise_gateway taskmates_enterprise_gateway
 COPY etc/ipython_config.py ~/.ipython/profile_default/ipython_config.py
