@@ -49,6 +49,7 @@ RUN pip install --user matplotlib==3.8.3
 RUN pip install --user numpy==1.26.2
 RUN pip install --user pandas==2.1.4
 RUN pip install --user pypdf==3.17.4
+RUN pip install --user yfinance==0.2.38
 
 USER jovyan
 
