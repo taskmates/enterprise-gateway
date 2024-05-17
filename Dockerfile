@@ -1,65 +1,37 @@
-FROM elyra/enterprise-gateway:3.2.3
-
+FROM jupyter/minimal-notebook:python-3.11
 ENV EG_PORT=10100
 
-#RUN mamba install --quiet --yes \
-#    cffi \
-#    send2trash \
-#    requests \
-#    future \
-#    pycryptodomex && \
-#    conda clean --all && \
-#    fix-permissions $CONDA_DIR && \
-#    fix-permissions /home/$NB_USER
-
-USER root
-
 RUN apt update && apt install -yq curl fd-find ack-grep
-
 RUN ln -s /usr/bin/fdfind /usr/local/bin/fd
 
-#RUN apt update && apt install -yq curl openjdk-8-jdk
-#
-## Install Enterprise Gateway wheel and kernelspecs
-#COPY jupyter_enterprise_gateway*.whl /tmp/
-#RUN pip install /tmp/jupyter_enterprise_gateway*.whl && \
-#	rm -f /tmp/jupyter_enterprise_gateway*.whl
-#
-#ADD jupyter_enterprise_gateway_kernelspecs*.tar.gz /usr/local/share/jupyter/kernels/
-#ADD jupyter_enterprise_gateway_kernel_image_files*.tar.gz /usr/local/bin/
-#
-#COPY start-enterprise-gateway.sh /usr/local/bin/
-#
-#RUN chown jovyan:users /usr/local/bin/start-enterprise-gateway.sh && \
-#	chmod 0755 /usr/local/bin/start-enterprise-gateway.sh && \
-#	touch /usr/local/share/jupyter/enterprise-gateway.log && \
-#	chown -R jovyan:users /usr/local/share/jupyter /usr/local/bin/kernel-launchers && \
-#	chmod 0666 /usr/local/share/jupyter/enterprise-gateway.log && \
-#	rm -f /usr/local/bin/bootstrap-kernel.sh
+RUN pip install poetry
 
-#COPY README.md .
-
-#COPY pyproject.toml .
-
-#RUN pip3 install .
-
-USER jovyan
-
-COPY etc/ipython_config.py /home/jovyan/.ipython/profile_default/ipython_config.py
-
-RUN pip install --user pillow==10.1.0
-RUN pip install --user pyarrow==16.0.0
-RUN pip install --user google-api-python-client==2.111.0
-RUN pip install --user ipytest==0.14.2
-RUN pip install --user matplotlib==3.8.3
-RUN pip install --user numpy==1.26.2
-RUN pip install --user pandas==2.1.4
-RUN pip install --user pypdf==3.17.4
-RUN pip install --user yfinance==0.2.38
+ENV PATH="/root/.local/bin:$PATH" \
+  PYTHONFAULTHANDLER=1 \
+  PYTHONUNBUFFERED=1 \
+  PYTHONHASHSEED=random \
+  PIP_NO_CACHE_DIR=off \
+  PIP_DISABLE_PIP_VERSION_CHECK=on \
+  PIP_DEFAULT_TIMEOUT=100 \
+  # Poetry's configuration:
+  POETRY_NO_INTERACTION=1 \
+  POETRY_VIRTUALENVS_CREATE=false \
+  POETRY_CACHE_DIR='/var/cache/pypoetry' \
+  POETRY_HOME='/usr/local' \
+  POETRY_VERSION=1.7.1
 
 
-CMD ["/usr/local/bin/start-enterprise-gateway.sh"]
+WORKDIR /home/jovyan/taskmates_enterprise_gateway
+RUN mkdir -p /home/jovyan/.ipython/profile_default
 
-EXPOSE 10100
+COPY taskmates_enterprise_gateway taskmates_enterprise_gateway
+COPY etc/ipython_config.py ~/.ipython/profile_default/ipython_config.py
+COPY pyproject.toml .
+COPY poetry.lock .
+COPY README.md .
 
-WORKDIR /usr/local/bin
+RUN poetry install
+
+EXPOSE $EG_PORT
+
+CMD poetry run jupyter enterprisegateway --port=$EG_PORT --EnterpriseGatewayApp.list_kernels=True
