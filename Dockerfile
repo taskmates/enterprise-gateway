@@ -10,8 +10,7 @@ USER jovyan
 
 RUN pip install poetry
 
-ENV PATH="/root/.local/bin:$PATH" \
-  PYTHONFAULTHANDLER=1 \
+ENV PYTHONFAULTHANDLER=1 \
   PYTHONUNBUFFERED=1 \
   PYTHONHASHSEED=random \
   PIP_NO_CACHE_DIR=off \
@@ -20,8 +19,6 @@ ENV PATH="/root/.local/bin:$PATH" \
   # Poetry's configuration:
   POETRY_NO_INTERACTION=1 \
   POETRY_VIRTUALENVS_CREATE=false \
-  POETRY_CACHE_DIR='/var/cache/pypoetry' \
-  POETRY_HOME='/usr/local' \
   POETRY_VERSION=1.7.1
 
 COPY taskmates_enterprise_gateway taskmates_enterprise_gateway
