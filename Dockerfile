@@ -12,8 +12,10 @@ ENV EG_PORT=10100
 #    fix-permissions $CONDA_DIR && \
 #    fix-permissions /home/$NB_USER
 
-#USER root
-#
+USER root
+
+RUN apt update && apt install -yq curl fd-find ack-grep
+
 #RUN apt update && apt install -yq curl openjdk-8-jdk
 #
 ## Install Enterprise Gateway wheel and kernelspecs
