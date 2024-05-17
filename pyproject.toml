@@ -17,7 +17,6 @@ numpy = "^1.26.2"
 pandas = "^2.1.4"
 pypdf = "^3.17.4"
 jupyter-enterprise-gateway = "^3.2.2"
-taskmates = { path = "/Users/ralphus/Development/ai/taskmates" }
 jupyter-contrib-nbextensions = "^0.7.0"
 yfinance = "^0.2.38"
 
